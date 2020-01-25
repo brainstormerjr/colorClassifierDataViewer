@@ -32,7 +32,7 @@ let database = firebase.database();
 
 
 function setup() {
-  createCanvas(windowHeight, windowHeight);
+  createCanvas(800, 800);
   countP = createP('Database size: ');
   countP.style('padding', '20px');
   rezSlider = createSlider(1, width / 2, 10, 0.1);
