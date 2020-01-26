@@ -4,7 +4,7 @@ let rez;
 let rezSlider;
 let countP;
 let currentColor;
-let labelRadio;
+let labelSelect;
 
 let colorList = [
   'Red',
@@ -32,15 +32,17 @@ let database = firebase.database();
 
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(600, 600);
   countP = createP('Database size: ');
   countP.style('padding', '20px');
-  rezSlider = createSlider(1, width / 2, 10, 0.1);
-  labelRadio = createRadio();
+  //rezSlider = createSlider(1, width / 2, 10, 10);
+  labelSelect = createSelect();
   for (let color of colorList) {
-    labelRadio.option(color);
+    labelSelect.option(color);
   }
-  labelRadio.option('All');
+  labelSelect.option('All');
+  labelSelect.style('height', '20px');
+  labelSelect.style('width', '100px');
 }
 
 function gotData(data) {
@@ -59,6 +61,7 @@ function mousePressed() {
     if (currentColor == 'All') {
       for (let key in rawData) {
         shownData.push(rawData[key]);
+        shownKeys.push(key);
       }
     } else {
       for (let key in rawData) {
@@ -74,8 +77,9 @@ function mousePressed() {
 }
 
 function draw() {
-  rez = rezSlider.value();
-  currentColor = labelRadio.value();
+  //rez = rezSlider.value();
+  rez = 10;
+  currentColor = labelSelect.value();
   database.ref('colors').once('value', gotData);
   background(51);
   if (rawData) {
@@ -95,7 +99,7 @@ function draw() {
 
         x += rez;
 
-        if (x > width) {
+        if (x > width - rez) {
           x = 0;
           y += rez;
         }
@@ -111,7 +115,8 @@ function draw() {
 
         x += rez;
 
-        if (x > width) {
+        //if (x >= width - rez) {
+        if (x > width - rez) {
           x = 0;
           y += rez;
         }
